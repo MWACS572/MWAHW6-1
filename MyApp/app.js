@@ -6,8 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var lessMiddleware = require('less-middleware');
 var validator = require('express-validator');
-// var csrf = require('csurf');
-// var session = require('express-session')
+var csrf = require('csurf');
+var session = require('express-session')
 
 var index = require('./routes/index');
 var homepage = require('./routes/homepage');
@@ -28,21 +28,21 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(validator());
 app.use(cookieParser());
-// app.use(session({
-//     secret: "secret",
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: {secure: true,
-//         httpOnly: true,
-//         maxAge: 1000 * 60 * 60 * 24
-//     }
-// }));
-//app.use(csrf());
+app.use(session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
+    // cookie: {secure: true,
+    //     httpOnly: true,
+    //     maxAge: 1000 * 60 * 60 * 24
+    // }
+}));
+app.use(csrf());
 
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(validator());
 
 // app.use(function(req, res, next){
 //   res.locals.csrftoken = req.csrfToken();
@@ -73,5 +73,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-app.listen(3002);
+app.listen(3003);
 module.exports = app;

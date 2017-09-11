@@ -8,7 +8,7 @@
     <h1>News Letter Subscription Form</h1>
 
     <form action="/newsletter" method="POST">
-      <!--<input type="hidden" name="_csrf" value="#(csrftoken)">-->
+      <input type="hidden" name="_csrf" value=<%=csrftoken%>>
       <p>Please Enter your Email Address: </p>
       <input type="text" name="email"/>
       </br>

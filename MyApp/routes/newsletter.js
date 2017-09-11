@@ -7,14 +7,19 @@ var fs = require('fs');
 
 
 router.get("/", function(req, res, next){
-    res.render('index', {title:"Newsletter"});
+    console.log(req.csrfToken());
+    res.render('homepage', {title:"Newsletter", csrftoken : req.csrfToken()});
 });
 
 router.post("/", function(req, res, next){
 
-    var writeToFile = fs.createWriteStream('subscribers.txt');
-    writeToFile.write(req.body.email);
-    return next('route');
+    fs.appendFile('subscribers.txt',req.body.email, function(err){
+        if (err) throw err;
+        else {
+            return next('route');
+        }
+        });
+
 
 });
 router.post("/", function(req, res, next){
